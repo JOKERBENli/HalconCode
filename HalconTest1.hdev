@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* 元组类型</c>
+<c>* 整数型</c>
+<c></c>
+<c>* :=是赋值意思</c>
+<c>* 2赋值给了a</c>
+<l>a := 2</l>
+<c></c>
+<c>* 带小数点，就浮点类型</c>
+<l>b := 1.2</l>
+<c></c>
+<c>* 整型转浮点型</c>
+<l>c := real(a)</l>
+<c></c>
+<c>* 浮点转int</c>
+<l>d := int(b)</l>
+<c></c>
+<c>* 两个单引号之间表示，就是字符串类型</c>
+<l>ccc := 'sddd+再'</l>
+<c></c>
+<c>* 图像类型： 图像 区域 轮廓</c>
+<c></c>
+<c>* 算子，方法，函数，三个名词是一个意思</c>
+<c>* 输入参数，输出参数</c>
+<c>* read_image: 算子，方法，函数</c>
+<c>* 输出参数：Image</c>
+<c>* 输入参数：‘’字符串，需要图像的路径</c>
+<l>read_image (Image, 'printer_chip/printer_chip_01')</l>
+<c></c>
+<c>* 区域类型</c>
+<l>get_domain (Image, Domain)</l>
+<c></c>
+<c>* 轮廓类型（边缘轮廓线）</c>
+<l>gen_contour_region_xld (Domain, Contours, 'border')</l>
+<c></c>
+<c>* 快捷键</c>
+<c>* tab键，自动不全代码</c>
+<l>read_image (Image1, 'printer_chip/printer_chip_01')</l>
+<c></c>
+<c>* 单步运行：F6</c>
+<c></c>
+<c>* 充值快捷键：F2</c>
+<c></c>
+<c>* 运行所有F5</c>
+<c></c>
+<c>* F4 :注释，就是不启用代码，进行说明</c>
+<c></c>
+<c>* F3：取消注释</c>
+<c></c>
+<c>* IF： 如果</c>
+<c></c>
+<l>if(a&gt;8)</l>
+<l>    a:=999</l>
+<l>endif</l>
+<c></c>
+<c>* for 循环逻辑</c>
+<c>* 从1运行到5，每隔1运行一次</c>
+<l>g := 1</l>
+<l>for Index := 1 to 5 by 1</l>
+<l>    g:= g+1</l>
+<l>endfor</l>
+<c></c>
+<c>* 从1运行到5，每隔2运行一次</c>
+<l>g := 1</l>
+<l>for Index := 1 to 5 by 2</l>
+<l>    g:= g+1</l>
+<l>endfor</l>
+<c></c>
+<l>z := 1</l>
+<l>while (z&lt;10)</l>
+<l> z:=z+1</l>
+<l>endwhile</l>
+<c></c>
+<l>threshold (Image1, Region, 128, 255)</l>
+<c></c>
+<l>area_center (Region, Area, Row, Column)</l>
+<c></c>
+<c>* 元组</c>
+<l>nums := ['apple',123,3.14]</l>
+<c></c>
+<c>* 2 获取元组的元素 通过索引值</c>
+<l>x := nums[2]</l>
+<c></c>
+<c>* 3 获取元组的长度 | |</c>
+<l>len := |nums|</l>
+<c></c>
+<c>* 4 遍历元组</c>
+<l>for Index := 0 to |nums|-1 by 1</l>
+<l>    num:= nums[Index]</l>
+<l>endfor</l>
+<c></c>
+<c>* 5 批量创建元组的元素</c>
+<l>nums:=[0:10]</l>
+<c></c>
+<c>* 6 [a:b:c] 元素范围是a到c，每次递增b</c>
+<l>nums2:=[0:3:9]</l>
+<c></c>
+<c>* 也可以反着来</c>
+<l>nums3:=[9:-3:0] </l>
+<c></c>
+<c>* 8 可以把变量重新定义成元组</c>
+<l>str:='a'</l>
+<l>str[0,1,2]:='ac'</l>
+<c></c>
+<c>* 9 元组合并</c>
+<l>list1:=[1,2,3]</l>
+<l>list2:=['a','b','c']</l>
+<l>list3:=[list1,list2]</l>
+<c></c>
+<c> </c>
+<c>* 10 元组并集: 去掉重复的元素</c>
+<c>* 参数1 要合并的元组</c>
+<c>* 参数2 要合并的元素</c>
+<c>* 参数3 合并之后元组</c>
+<c></c>
+<l>tuple_union(list3, nums, Union)</l>
+<c></c>
+<c>* 1 创建字典   字典名称为aaa</c>
+<l>create_dict(aaa)</l>
+<c></c>
+<c>* 2 给字典设置键值对</c>
+<c>* 参数1 要设置的字典</c>
+<c>* 参数2 键</c>
+<c>* 参数3 值</c>
+<l>set_dict_tuple (aaa, 'v', 10)</l>
+<l>set_dict_tuple (aaa, 'v2', list1)</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

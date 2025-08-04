@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* 读取图像</c>
+<l>read_image (Image, 'monkey')</l>
+<c></c>
+<l>MyFunction (Image, RegionUnion, Area)</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="MyFunction">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="RegionUnion" base_type="iconic" dimension="0"/>
+</oo>
+<oc>
+<par name="Area" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* 阈值分割</c>
+<c>* 输出灰度 130到255之间的像素</c>
+<l>threshold (Image, Region, 130, 255)</l>
+<c></c>
+<c>* 填充</c>
+<l>fill_up (Region, RegionFillUp)</l>
+<c></c>
+<c>* 打散(把不连通区域给打散)</c>
+<l>connection (RegionFillUp, ConnectedRegions)</l>
+<c></c>
+<c>*右键-工具-特征检测-查看区域数值 960</c>
+<c>*筛选</c>
+<c>*输入：ConnectedRegions，'area', 'and',800, 1000 面积800到1000</c>
+<c>*输出：SelectedRegions，筛选后的区域</c>
+<l>select_shape(ConnectedRegions, SelectedRegions, 'area', 'and', 800, 1000)</l>
+<c></c>
+<c>*腐蚀(去杂质)</c>
+<l>erosion_circle (SelectedRegions, RegionErosion, 3.5)</l>
+<c>*膨胀(还原)</c>
+<l>dilation_circle (RegionErosion, RegionDilation, 3.5)</l>
+<c>*合并</c>
+<l>union1(RegionDilation, RegionUnion)</l>
+<c></c>
+<c>* 获取眼球区域的中心点和面积</c>
+<l>area_center (RegionUnion, Area, Row, Column)</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="MyFunction">
+<parameters>
+<parameter id="Area"/>
+<parameter id="Image"/>
+<parameter id="RegionUnion"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

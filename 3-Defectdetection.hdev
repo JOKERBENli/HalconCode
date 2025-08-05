@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>*****************************0.参数设置*****************************</c>
+<c>* 获取窗口的句柄</c>
+<l>dev_get_window(WindowHandle)</l>
+<c></c>
+<c>* 缺陷最小面积</c>
+<l>minDefectArea := 200</l>
+<c></c>
+<c>*****************************1.读取图像*****************************</c>
+<l>read_image (Image1, 'D:/C#tool/Halcon/Halcon-AOI教学资料（1-10）/04AOI通用流程/1.bmp')</l>
+<c></c>
+<c>* 定位：不在整张图像上检测，就只检测覆盖这个区域</c>
+<c>*****************************2.定位：(Blob分析)*****************************</c>
+<c></c>
+<c>* 阈值分割</c>
+<l>threshold(Image1, Region, 130, 255)</l>
+<c>* 填充</c>
+<l>fill_up (Region, RegionFillUp)</l>
+<c>* 连通区域分割成独立的区域</c>
+<l>connection(RegionFillUp, ConnectedRegions)</l>
+<c>* 筛选面积最大的区域</c>
+<l>select_shape_std (ConnectedRegions, SelectedRegions, 'max_area', 70)</l>
+<c></c>
+<c>*****************************3.获取ROI区域图像*****************************</c>
+<c>* 拟合最小外接圆</c>
+<l>smallest_circle(SelectedRegions, Row, Column, Radius)</l>
+<c>* 生成圆区域</c>
+<l>gen_circle (ROIRegion, Row, Column, Radius)</l>
+<c>* 修整，去除干扰区域</c>
+<l>erosion_circle (ROIRegion, RegionErosion1, 15)</l>
+<c>* 获取区域对应的图像</c>
+<l>reduce_domain (Image1, RegionErosion1, ImageReduced)</l>
+<c></c>
+<c>*****************************4.图像预处理(缺陷进行凸显)*****************************</c>
+<c>* 图像增强：亮的更亮，暗的更案，增强对比度</c>
+<l>mult_image (ImageReduced, ImageReduced, ImageResult, 0.008, 0) </l>
+<c></c>
+<c>*****************************5.图像算法处理*****************************</c>
+<c></c>
+<c>* 图像分割</c>
+<c>* 缺陷提取</c>
+<l>threshold(ImageResult, Region1, 0, 180)</l>
+<c>* 连通区域分割成独立的区域</c>
+<l>connection (Region1, ConnectedRegions1)</l>
+<c>* 根据面积选取特征区域</c>
+<l>select_shape (ConnectedRegions1, SelectedRegions1, 'area', 'and', minDefectArea, 99999)</l>
+<c></c>
+<c>*****************************6.结果输出*****************************</c>
+<l>count_obj(SelectedRegions1, Number)</l>
+<l>if(Number&gt;0)</l>
+<c>    *设置显示文本颜色</c>
+<l>    dev_set_color ('red')</l>
+<l>    Text := 'NG'</l>
+<c>    * 显示缺陷区域</c>
+<l>    dev_display(SelectedRegions1)</l>
+<c>    * 显示文本</c>
+<l>    disp_message (WindowHandle, Text, 'window', 12, 12, 'black', 'false')</l>
+<c>    </c>
+<l>endif</l>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
